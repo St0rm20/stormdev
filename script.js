@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Theme Toggle ---
     // Check for saved theme preference or default to dark
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark';
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'ligth';
     if (currentTheme === 'light') {
         body.classList.add('light-mode');
         themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // Sun icon for light mode
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Language Toggle ---
-    let currentLang = localStorage.getItem('lang') || 'es'; // Default to Spanish
+    let currentLang = localStorage.getItem('lang') || 'en'; // Default to Spanish
 
     const applyLanguage = (lang) => {
         document.querySelectorAll('[data-lang]').forEach(element => {
