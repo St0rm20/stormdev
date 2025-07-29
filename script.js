@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const langToggle = document.getElementById('lang-toggle');
+    const langToggleMobile = document.getElementById('lang-toggle-mobile');
     const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleMobile = document.getElementById('theme-toggle-mobile');
     const body = document.body;
     const navLinks = document.querySelectorAll('header nav ul li a');
     const contactBtn = document.querySelector('.contact-btn');
@@ -97,27 +99,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Theme Toggle ---
     // Check for saved theme preference or default to dark
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'ligth';
+    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light';
+    
+    const updateThemeButtons = (isLight) => {
+        const icon = isLight ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        themeToggle.innerHTML = icon;
+        if (themeToggleMobile) themeToggleMobile.innerHTML = icon;
+    };
+
     if (currentTheme === 'light') {
         body.classList.add('light-mode');
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; // Sun icon for light mode
+        updateThemeButtons(true);
     } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; // Moon icon for dark mode
+        updateThemeButtons(false);
     }
 
-    themeToggle.addEventListener('click', () => {
+    const toggleTheme = () => {
         body.classList.toggle('light-mode');
         if (body.classList.contains('light-mode')) {
             localStorage.setItem('theme', 'light');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            updateThemeButtons(true);
         } else {
             localStorage.setItem('theme', 'dark');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            updateThemeButtons(false);
         }
-    });
+    };
+
+    themeToggle.addEventListener('click', toggleTheme);
+    if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
 
     // --- Language Toggle ---
-    let currentLang = localStorage.getItem('lang') || 'en'; // Default to Spanish
+    let currentLang = localStorage.getItem('lang') || 'en'; // Default to English
+
+    const updateLanguageButtons = (lang) => {
+        const text = lang === 'es' ? 'EN / ES' : 'ES / EN';
+        langToggle.textContent = text;
+        langToggle.setAttribute('data-current-lang', lang);
+        if (langToggleMobile) {
+            langToggleMobile.textContent = text;
+            langToggleMobile.setAttribute('data-current-lang', lang);
+        }
+    };
 
     const applyLanguage = (lang) => {
         document.querySelectorAll('[data-lang]').forEach(element => {
@@ -127,21 +149,23 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         document.documentElement.lang = lang; // Set HTML lang attribute
-        langToggle.setAttribute('data-current-lang', lang);
-        langToggle.textContent = lang === 'es' ? 'EN / ES' : 'ES / EN';
+        updateLanguageButtons(lang);
     };
 
     // Initialize language on page load
     applyLanguage(currentLang);
 
-    langToggle.addEventListener('click', () => {
+    const toggleLanguage = () => {
         currentLang = currentLang === 'es' ? 'en' : 'es';
         localStorage.setItem('lang', currentLang);
         applyLanguage(currentLang);
-    });
+    };
+
+    langToggle.addEventListener('click', toggleLanguage);
+    if (langToggleMobile) langToggleMobile.addEventListener('click', toggleLanguage);
 
     // --- Smooth Scrolling for Navigation ---
-    document.querySelectorAll('nav a, .contact-btn').forEach(anchor => {
+    document.querySelectorAll('nav a, .contact-btn, .mobile-contact-btn').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
 
@@ -184,5 +208,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', highlightNavLink);
     highlightNavLink(); // Call on load to set initial active link
+
+    // Hamburger Menu Functionality
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileNav = document.querySelector('.mobile-nav');
+
+    if (hamburgerBtn && mobileNav) {
+        hamburgerBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('open');
+        });
+
+        // Cerrar el menú al hacer clic en un enlace (opcional)
+        mobileNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+            });
+        });
+    }
 
 });

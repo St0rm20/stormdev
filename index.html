@@ -13,7 +13,7 @@
     <header>
         <div class="container header-content">
             <h1 class="logo">Miguel Angel Vargas Pelaez</h1>
-            <nav>
+            <nav class="mobile-nav">
                 <ul>
                     <li><a href="#about" data-lang="about">About</a></li>
                     <li><a href="#skills" data-lang="skills">Skills</a></li>
@@ -25,6 +25,10 @@
                 <button id="lang-toggle" class="toggle-button" data-current-lang="es">EN / ES</button>
                 <button id="theme-toggle" class="toggle-button"><i class="fas fa-moon"></i></button>
                 <a href="#contact" class="btn btn-primary contact-btn" data-lang="contact-me-btn">Contact Me</a>
+            </div>
+            <div class="mobile-controls">
+                
+                <button id="hamburger-btn" class="toggle-button">☰</button>
             </div>
         </div>
     </header>
@@ -177,6 +181,9 @@
             </div>
         </section>
     </main>
+
+    <!-- Mobile Contact Button -->
+    <a href="#contact" class="btn btn-primary mobile-contact-btn" data-lang="contact-me-btn">Contact Me</a>
 
     <footer>
         <div class="container text-center">
